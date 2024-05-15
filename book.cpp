@@ -126,14 +126,11 @@ void Book::removeBook(){
 void Book::saveData(){
     ofstream output("bookbase.txt");
     for (int i = 0; i < registeredBooks.size(); i++){
-        Book* data = registeredBooks[i];
-
-        output << data->ISBN << separator
-        << data->title << separator
-        << data->author << separator
-        << data->publicationYear << separator
-        << data->genre << "\n";
-
+        output << registeredBooks[i]->ISBN << separator
+        << registeredBooks[i]->title << separator
+        << registeredBooks[i]->author << separator
+        << registeredBooks[i]->publicationYear << separator
+        << registeredBooks[i]->genre << "\n";
     }
 
     output.close();
@@ -150,7 +147,7 @@ void Book::loadData(){
         getline(input, line);
         if (line == "\n" || line == "") break;
 
-        auto bookInputs = split(separator, line);
+        vector<string> bookInputs = split(separator, line);
         Book* book = new Book();
 
         book->ISBN = bookInputs[0];

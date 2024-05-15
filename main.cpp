@@ -14,7 +14,6 @@ void processMembers();
 void processMemberModification(Member* member);
 void processBooks();
 void processBookModification(Book* book);
-//when returning check if the return is overdue
 
 int main(){
     Member::loadData();
@@ -82,7 +81,7 @@ void processCheckout(){
             Book* book = Book::findByISBN(isbn);
             if (book != nullptr){
                 member->checkout(isbn);
-                cout << "Sucessfully checked out the book \"" + book->getTitle() + "\"\n";
+                cout << "Sucessfully checked out the book " + book->getTitle() + "\n";
                 break;
             }
             else {
@@ -125,7 +124,6 @@ void processReturn(){
 
             for (int i = 0; i < notReturnedTransactions.size(); i++){
                 Book* book = Book::findByISBN(notReturnedTransactions[i].bookISBN);
-                if (book == nullptr) continue;
                 cout << i + 1 << " - " << book->getTitle() << "\n";
             }
 
@@ -133,7 +131,7 @@ void processReturn(){
         
             if (selection == -1) return;
         
-            if (selection <= notReturnedTransactions.size()){
+            if (selection <= notReturnedTransactions.size() && selection > 0){
                 if (isOverdue(notReturnedTransactions[selection-1].returnDate)){
                     cout << "Succesfully returned the book but the member has to pay a fine for an overdue return!\n";
                 }
@@ -285,7 +283,7 @@ void processMembers(){
 
                     if (input == -1) break;
 
-                    if (input <= members.size()){
+                    if (input <= members.size() && input > 0){
                         processMemberModification(members[input-1]);
                     }
                     else {
@@ -317,7 +315,6 @@ void processMemberModification(Member* member){
             << "3 - Modify phone no.\n"
             << "4 - Remove from database\n"
             << "---------------------------------------->\n";
-
         cin >> input;
         
         if (input == -1) return;
